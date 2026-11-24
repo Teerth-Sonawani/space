@@ -58,13 +58,9 @@ is an adapter behind `LlmClient` — none is hard-wired.
 
 ## Screenshots
 
-| Home | Idea | Questions |
+| Home | Questions | Chart |
 |---|---|---|
-| ![Home](docs/screenshots/home.png) | ![Idea](docs/screenshots/idea.png) | ![Questions](docs/screenshots/questions.png) |
-
-| Generating | Chart | Library | Settings |
-|---|---|---|---|
-| ![Generating](docs/screenshots/generating.png) | ![Chart](docs/screenshots/chart.png) | ![Library](docs/screenshots/library.png) | ![Settings](docs/screenshots/settings.png) |
+| ![Home](docs/screenshots/home.png) | ![Questions](docs/screenshots/questions.png) | ![Chart](docs/screenshots/chart.png) |
 
 ## Getting started
 
