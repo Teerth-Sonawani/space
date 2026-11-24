@@ -78,7 +78,7 @@ is an adapter behind `LlmClient` — none is hard-wired.
 
 ```bash
 # clone
-git clone https://github.com/YOUR_USERNAME/space.git
+git clone https://github.com/Teerth-Sonawani/space.git
 cd space
 
 # open in Android Studio, or build from CLI:
@@ -154,6 +154,10 @@ app/src/main/java/com/space/app/
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 ## License
 
