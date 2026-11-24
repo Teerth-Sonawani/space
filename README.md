@@ -58,22 +58,13 @@ is an adapter behind `LlmClient` — none is hard-wired.
 
 ## Screenshots
 
-> **Design mockups** — pixel-accurate to the Compose UI, built from the actual
-> theme tokens (colors, type, shapes) and layout code. Open
-> [`docs/screenshots/mockups.html`](docs/screenshots/mockups.html) in a browser
-> to view all seven screens side by side, or screenshot individual phones.
-
-| Home | Questions | Chart |
+| Home | Idea | Questions |
 |---|---|---|
-| ![Home](docs/screenshots/mockups.html) | ![Questions](docs/screenshots/mockups.html) | ![Chart](docs/screenshots/mockups.html) |
+| ![Home](docs/screenshots/home.png) | ![Idea](docs/screenshots/idea.png) | ![Questions](docs/screenshots/questions.png) |
 
-<details>
-<summary>All screens (Home · Idea · Questions · Generating · Chart · Library · Settings)</summary>
-
-Open [`docs/screenshots/mockups.html`](docs/screenshots/mockups.html) for the
-full-size interactive view. Each phone frame is a separate screen.
-
-</details>
+| Generating | Chart | Library | Settings |
+|---|---|---|---|
+| ![Generating](docs/screenshots/generating.png) | ![Chart](docs/screenshots/chart.png) | ![Library](docs/screenshots/library.png) | ![Settings](docs/screenshots/settings.png) |
 
 ## Getting started
 

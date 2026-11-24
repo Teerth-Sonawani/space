@@ -18,3 +18,7 @@ runtests.bat
 test-out.txt
 test-err.txt
 *.bak
+node_modules/
+package.json
+package-lock.json
+screenshot.js
