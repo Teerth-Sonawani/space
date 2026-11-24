@@ -3,6 +3,7 @@
 /local.properties
 /keystore.properties
 /release.keystore
+/app/release.keystore
 /.idea
 .DS_Store
 /build
