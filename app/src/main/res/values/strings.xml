@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Space</string>
+    <string name="action_back">Back</string>
+
+    <!-- Home -->
+    <string name="home_title">Space</string>
+    <string name="home_subtitle">Drop in an idea. Get a plan you can walk through.</string>
+    <string name="home_empty_title">No plans yet</string>
+    <string name="home_empty_body">Your saved plans will gather here.</string>
+    <string name="home_new_idea">New idea</string>
+    <string name="home_open_sample">Open the sample plan</string>
+    <string name="home_recent_label">Last plan</string>
+    <string name="home_open_library">Your plans</string>
+    <string name="home_open_settings">Settings</string>
+
+    <!-- Idea -->
+    <string name="idea_title">What are you thinking about?</string>
+    <string name="idea_hint">An idea, half an idea, or a one-line goal…</string>
+    <string name="idea_counter">%1$d / %2$d</string>
+    <string name="idea_continue">Continue</string>
+    <plurals name="idea_characters_left">
+        <item quantity="one">%1$d more character to continue</item>
+        <item quantity="other">%1$d more characters to continue</item>
+    </plurals>
+
+    <!-- Questions -->
+    <string name="question_progress">Question %1$d of %2$d</string>
+    <string name="question_own_answer">Or write your own answer</string>
+    <string name="question_skip">Skip</string>
+    <string name="question_next">Next</string>
+    <string name="question_make">Make it</string>
+
+    <!-- Generating -->
+    <string name="generating_title">Working on it</string>
+    <string name="generating_step_reading">Reading your idea</string>
+    <string name="generating_step_thinking">Thinking through your answers</string>
+    <string name="generating_step_shaping">Shaping the plan</string>
+    <string name="generating_step_drawing">Drawing the chart</string>
+    <string name="generating_step_done">%1$s — done</string>
+    <string name="generating_step_active">%1$s…</string>
+    <string name="generating_cancel">Cancel</string>
+    <string name="generating_failed_title">That did not work</string>
+    <string name="generating_retry">Try again</string>
+    <string name="generating_use_starter">Use offline starter plan</string>
+
+    <string name="questions_loading">Shaping a few questions…</string>
+    <string name="questions_offline_banner">Using the offline question pack</string>
+
+    <!-- Settings -->
+    <string name="settings_title">API sources</string>
+    <string name="settings_sources_heading">Your keys</string>
+    <string name="settings_sources_body">Tried in order from top to bottom. Keys stay on this device and are never logged.</string>
+    <string name="settings_empty">No keys yet. Without one, Space uses the offline starter plan.</string>
+    <string name="settings_add_heading">Add a key</string>
+    <string name="settings_label_hint">Label (optional)</string>
+    <string name="settings_key_hint">API key</string>
+    <string name="settings_add">Add source</string>
+    <string name="settings_remove">Remove</string>
+    <string name="settings_move_up">Move up</string>
+    <string name="settings_move_down">Move down</string>
+    <string name="settings_health_active">Active</string>
+    <string name="settings_health_cooling">Cooling down</string>
+    <string name="settings_health_invalid">Invalid</string>
+
+    <!-- Chart -->
+    <string name="chart_recenter">Fit to screen</string>
+    <string name="chart_zoom_in">Zoom in</string>
+    <string name="chart_zoom_out">Zoom out</string>
+    <plurals name="chart_steps">
+        <item quantity="one">Plan chart with %1$d step</item>
+        <item quantity="other">Plan chart with %1$d steps</item>
+    </plurals>
+    <string name="chart_node_position">Step %1$d of %2$d</string>
+    <string name="chart_open_details">Open details</string>
+    <string name="chart_empty">This plan has nothing to draw</string>
+    <string name="detail_subtasks">Subtasks</string>
+
+    <!-- Node kinds -->
+    <string name="kind_goal">Goal</string>
+    <string name="kind_step">Step</string>
+    <string name="kind_decision">Decision</string>
+    <string name="kind_risk">Risk</string>
+
+    <!-- Library -->
+    <string name="library_title">Your plans</string>
+    <string name="library_empty_title">Nothing saved yet</string>
+    <string name="library_empty_body">Plans you generate will show up here.</string>
+    <string name="library_rename">Rename</string>
+    <string name="library_delete">Delete</string>
+    <string name="library_rename_title">Rename plan</string>
+    <string name="library_rename_confirm">Save</string>
+    <string name="library_rename_cancel">Cancel</string>
+    <string name="library_deleted">Plan deleted</string>
+    <string name="library_undo">Undo</string>
+    <string name="library_delete_confirm">Delete this plan?</string>
+    <string name="library_delete_confirm_body">“%1$s” will be removed. You can undo right after.</string>
+    <string name="library_delete_yes">Delete</string>
+    <string name="library_delete_no">Keep</string>
+</resources>

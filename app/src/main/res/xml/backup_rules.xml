@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Exclude encrypted API key material from cloud backup. -->
+    <exclude domain="sharedpref" path="space_api_keys.xml" />
+    <exclude domain="sharedpref" path="__androidx_security_crypto_encrypted_prefs__.xml" />
+</full-backup-content>
