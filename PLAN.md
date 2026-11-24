@@ -127,7 +127,16 @@ Error paths: bad key, all sources failed (offers "use offline starter plan" or r
 - **Unit tests:** failover logic with fake providers (every row of the failure table), schema validation (cyclic graphs, dangling edges, too many nodes), layout determinism. ✅ done — `FailOverRunnerTest`, `ProviderChainTest`, `QuestionsChainTest`, `HttpFailOverTest`, `KeyHealthStoreTest`, decoder and layout tests, 140 JVM tests green.
 - **Build gates:** ✅ `assembleDebug`, `assembleRelease` (R8 minified), and `lintDebug` all green; lint reports 0 errors (remaining warnings are dependency-version notices and a portrait-orientation choice).
 - **Compose UI tests:** ✅ written for Home, Idea, Questions, Generating and Chart screens; run on the JVM via Robolectric — no emulator needed.
-- **Manual checks:** airplane mode, revoked key, slow network. ⬜ not run.
+- **Manual checks:** ⬜ not run — checklist below for device testing:
+  1. **Airplane mode** — enable airplane mode, generate a plan. Should fall back to starter plan with a clear message.
+  2. **Revoked key** — revoke a key in Settings, try to generate. Should show "Key rejected" and fail over to next source.
+  3. **Rate limited** — generate rapidly to trigger 429. Key should show "Cooling down" and skip on next request.
+  4. **All keys invalid** — mark all keys invalid, generate. Should offer offline starter plan.
+  5. **Slow network** — throttle network, generate. Per-attempt timeout (20s) should fire and move to next key.
+  6. **Dark theme** — switch to dark mode. All screens, chart nodes, and node kind colors should adapt.
+  7. **TalkBack** — enable TalkBack, navigate Home → Idea → Questions → Chart. Text fields, buttons, and chart nodes should have content descriptions.
+  8. **Reduced motion** — enable "Remove animations" in developer options. Staggered reveals and chart fit animation should collapse to instant.
+  9. **Rotation** — rotate device on Chart screen. Chart should re-fit to new viewport; selected node sheet should persist.
 
 ## 11. Risks
 | Risk | Mitigation |
