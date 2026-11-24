@@ -1,0 +1,28 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Explicitly declare text files
+*.kt text
+*.kts text
+*.xml text
+*.md text
+*.properties text
+*.json text
+*.pro text
+*.gradle text
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Windows batch files must use CRLF
+gradlew.bat text eol=crlf
+
+# Shell scripts must use LF
+gradlew text eol=lf
+*.sh text eol=lf
+
+# Binary files
+*.jar binary
+*.keystore binary
+*.png binary
+*.jpg binary
+*.webp binary

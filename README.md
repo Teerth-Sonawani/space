@@ -1,7 +1,16 @@
 # Space
 
-Type a rough idea → answer 2–4 sharp questions → watch a flowchart plan assemble
-itself on screen. Android app, Jetpack Compose, single Activity.
+**Type a rough idea → answer 2–4 sharp questions → watch a flowchart plan assemble itself on screen.**
+
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4.21-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Compose](https://img.shields.io/badge/Jetpack_Compose-1.8.3-4285F4?logo=android&logoColor=white)](https://developer.android.com/jetpack/compose)
+[![minSdk](https://img.shields.io/badge/minSdk-26-green)](https://developer.android.com/tools/releases/platforms)
+[![Tests](https://img.shields.io/badge/tests-168%20passing-brightgreen)]()
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+Android app, Jetpack Compose, single Activity. No DI framework, no backend — everything runs on-device.
+
+---
 
 ## The flow
 
@@ -10,7 +19,7 @@ Home → Idea → Questions → Generating → Chart (pan / zoom / tap a node fo
                        ↘ Library (saved plans)   ↘ Settings (API keys)
 ```
 
-Every step has a designed loading, error and empty state. If generation fails
+Every step has a designed loading, error, and empty state. If generation fails
 outright, you can fall back to a built-in starter plan and still get a chart.
 
 ## AI layer
@@ -19,8 +28,6 @@ Two LLM calls share one failover implementation (`domain/generation/FailOverRunn
 
 1. **Questions call** — idea in, 2–4 clarifying questions out.
 2. **Plan call** — idea plus answers in, strict JSON plan out.
-
-Failover table (PLAN.md §3), applied identically to both:
 
 | Condition | Behaviour |
 |---|---|
@@ -32,57 +39,126 @@ Failover table (PLAN.md §3), applied identically to both:
 | 400 | stop — that is a prompt bug, not a key problem |
 | All sources cooling/invalid or budget spent | report the reason; offer starter plan |
 
-Malformed model JSON gets one repair retry before failing over.
-Keys are tried in Settings priority order; the chain skips any key that is
-cooling or invalid rather than hammering it.
+Malformed model JSON gets one repair retry before failing over. Keys are tried in
+Settings priority order; the chain skips any key that is cooling or invalid rather
+than hammering it.
+
+**Supported providers:** Google Gemini, Groq, OpenRouter (OpenAI-compatible). Each
+is an adapter behind `LlmClient` — none is hard-wired.
 
 ## Architecture
 
-`ui → domain → data`, no DI framework, constructor injection only.
+`ui → domain → data`, constructor injection only.
 
-- `domain/` — pure Kotlin: models, prompts, JSON decoding, `PlanValidator`,
-  layout, and the failover core. Everything here is JVM-unit-testable.
-- `data/` — `FilePlanStore` (atomic temp-file rename, 50-plan cap),
-  `EncryptedSettingsRepository` (EncryptedSharedPreferences + DataStore),
-  in-memory variants for tests.
-- `ui/` — Compose screens plus one `PlanFlowViewModel` holding the whole flow,
-  with injectable seams (`store`, `generator`, `questionsChain`,
-  `ioDispatcher`, `settings`) for tests.
+| Layer | What's in it |
+|---|---|
+| `domain/` | Pure Kotlin: models, prompts, JSON decoding, `PlanValidator`, `LayeredLayout`, failover core. JVM-unit-testable. |
+| `data/` | `FilePlanStore` (atomic temp-file rename, 50-plan cap), `EncryptedSettingsRepository` (EncryptedSharedPreferences + DataStore), in-memory variants for tests. |
+| `ui/` | Compose screens + one `PlanFlowViewModel` holding the whole flow, with injectable seams for tests. |
 
-Providers (Gemini, Groq, OpenRouter) are adapters behind `LlmClient`, so none is
-hard-wired.
+## Screenshots
 
-## Build and test
+> *Add screenshots here — `docs/screenshots/`*
 
-Requires an Android SDK (platform 36) and JDK 25+.
+| Home | Questions | Chart |
+|---|---|---|
+| ![Home](docs/screenshots/home.png) | ![Questions](docs/screenshots/questions.png) | ![Chart](docs/screenshots/chart.png) |
 
-```powershell
-# unit tests (domain + view model, no emulator needed)
-.\gradlew.bat testDebugUnitTest --console=plain
+## Getting started
 
-# build
-.\gradlew.bat assembleDebug --console=plain
+### Prerequisites
+
+- Android Studio (latest stable)
+- JDK 25+ (JDK 26 recommended)
+- Android SDK platform 36
+
+### Build & run
+
+```bash
+# clone
+git clone https://github.com/YOUR_USERNAME/space.git
+cd space
+
+# open in Android Studio, or build from CLI:
+./gradlew assembleDebug
+
+# run unit tests (no emulator needed)
+./gradlew testDebugUnitTest
 ```
 
-If `JAVA_HOME` in your environment points at an invalid JDK, override it for
-the session: `$env:JAVA_HOME='C:\Program Files\Java\jdk-26.0.2.1'`.
+The app starts without any API keys configured — it uses the offline question
+pack and the built-in starter plan until you add a key in Settings.
+
+### API keys
+
+Open **Settings** from the home screen and add a key for any of:
+
+- **Gemini** — [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+- **Groq** — [console.groq.com/keys](https://console.groq.com/keys)
+- **OpenRouter** — [openrouter.ai/keys](https://openrouter.ai/keys)
+
+Keys are encrypted with Android Keystore and stored only on-device. They are
+never logged or included in backups.
+
+## Tech stack
+
+| Area | Choice |
+|---|---|
+| UI | Jetpack Compose, Material 3 (custom theme) |
+| Navigation | Navigation Compose (string routes) |
+| DI | Constructor injection (no framework) |
+| Persistence | FilePlanStore (JSON files), DataStore + EncryptedSharedPreferences |
+| Networking | OkHttp + kotlinx.serialization |
+| Testing | JUnit 4, Robolectric (Compose UI on JVM), MockWebServer |
+| Build | Gradle 9.5, AGP 8.13, R8 minification |
 
 ## Tests
 
-`app/src/test` — JVM tests only (no emulator needed):
+`app/src/test` — **168 JVM tests**, no emulator needed:
 
-- `FailOverRunnerTest`, `ProviderChainTest`, `QuestionsChainTest`,
-  `HttpFailOverTest`, `KeyHealthStoreTest` — the failover table end to end.
-- `PlanJsonDecoderTest`, `QuestionsJsonDecoderTest`, `JsonExtractTest` — model
-  output parsing, including fenced/prose-wrapped JSON.
-- `PlanValidatorTest`, `LayeredLayoutTest`, `PlanCodecTest`,
-  `FilePlanStoreTest`, `SamplePlanTest`, `StarterPlanGeneratorTest`.
-- `PlanFlowViewModelTest` — flow state, drafts, library, questions fallback,
-  source reordering.
-- `HomeScreenUiTest`, `IdeaScreenUiTest`, `QuestionsScreenUiTest`,
-  `GeneratingScreenUiTest`, `ChartScreenUiTest` — Compose UI tests on the JVM
-  via Robolectric; no emulator needed.
+| Suite | What it covers |
+|---|---|
+| `FailOverRunnerTest`, `ProviderChainTest`, `QuestionsChainTest` | Failover table end to end |
+| `HttpFailOverTest`, `KeyHealthStoreTest` | HTTP status mapping, cooldown/invalidation |
+| `PlanJsonDecoderTest`, `QuestionsJsonDecoderTest`, `JsonExtractTest` | Model output parsing (fenced/prose-wrapped JSON) |
+| `PlanValidatorTest`, `LayeredLayoutTest` | Schema validation, layout determinism |
+| `PlanCodecTest`, `FilePlanStoreTest` | Serialization, atomic writes |
+| `SamplePlanTest`, `StarterPlanGeneratorTest` | Sample plan validity, starter output |
+| `PlanFlowViewModelTest` | Flow state, drafts, library, questions fallback |
+| `ProviderIntegrationTest` | HTTP cycle via MockWebServer (success, 401, 429) |
+| `HomeScreenUiTest`, `IdeaScreenUiTest`, `QuestionsScreenUiTest`, `GeneratingScreenUiTest`, `ChartScreenUiTest`, `LibraryScreenUiTest`, `SettingsScreenUiTest` | Compose UI via Robolectric |
 
-Not covered: `androidTest` instrumentation tests — they need an emulator.
+Not covered: `androidTest` instrumentation tests (need an emulator).
 
-See `PLAN.md` for the full design and milestone status.
+## Project structure
+
+```
+app/src/main/java/com/space/app/
+├── MainActivity.kt
+├── data/                  # storage, settings, providers metadata
+├── domain/
+│   ├── generation/        # LLM clients, prompts, failover, JSON decoders
+│   ├── layout/            # layered top-to-bottom chart layout
+│   ├── model/             # Plan, Node, Edge, IdeaBrief, ClarifyingQuestion
+│   ├── sample/            # hardcoded sample plan
+│   └── validation/        # PlanValidator
+└── ui/
+    ├── screens/           # Home, Idea, Questions, Generating, Chart, Library, Settings
+    ├── theme/             # colors, type, shapes
+    ├── Motion.kt          # reduced-motion detection
+    └── PlanFlowViewModel.kt
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+## Acknowledgements
+
+- [Jetpack Compose](https://developer.android.com/jetpack/compose) for the UI toolkit
+- [OkHttp](https://square.github.io/okhttp/) for networking
+- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for JSON
